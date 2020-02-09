@@ -1,0 +1,41 @@
+diff -up rttr-0.9.6/CMake/utility.cmake.omv~ rttr-0.9.6/CMake/utility.cmake
+--- rttr-0.9.6/CMake/utility.cmake.omv~	2020-02-09 18:03:22.268285709 +0100
++++ rttr-0.9.6/CMake/utility.cmake	2020-02-09 20:06:20.278611042 +0100
+@@ -396,7 +396,10 @@ function( set_compiler_warnings target)
+                  "-Wall")
+   elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+     set(WARNINGS "-Werror"
+-                 "-Wall")
++                 "-Wall"
++                 "-Wno-error=delete-non-abstract-non-virtual-dtor"
++		 "-Wno-self-assign-overloaded"
++		 )
+   elseif(MSVC)
+     set(WARNINGS "/WX"
+                  "/W4")
+diff -up rttr-0.9.6/src/rttr/detail/conversion/number_conversion.h.omv~ rttr-0.9.6/src/rttr/detail/conversion/number_conversion.h
+--- rttr-0.9.6/src/rttr/detail/conversion/number_conversion.h.omv~	2020-02-09 17:56:42.426268078 +0100
++++ rttr-0.9.6/src/rttr/detail/conversion/number_conversion.h	2020-02-09 17:59:26.163275298 +0100
+@@ -134,9 +134,9 @@ typename std::enable_if<std::is_floating
+                         bool>::type
+ convert_to(const F& from, T& to)
+ {
+-    if (from > std::numeric_limits<T>::max())
++    if (from > static_cast<F>(std::numeric_limits<T>::max()))
+         return false; // value too large
+-    else if (from < -std::numeric_limits<T>::max())
++    else if (from < -static_cast<F>(std::numeric_limits<T>::max()))
+         return false; // value to small
+ 
+     to = static_cast<T>(from);
+@@ -151,7 +151,7 @@ typename std::enable_if<std::is_floating
+                         bool>::type
+ convert_to(const F& from, T& to)
+ {
+-    if (from < 0 || from > std::numeric_limits<T>::max())
++    if (from < static_cast<F>(0) || from > static_cast<F>(std::numeric_limits<T>::max()))
+         return false; // value too large
+ 
+     to = static_cast<T>(from);
+diff -up rttr-0.9.6/src/unit_tests/CMakeLists.txt.omv~ rttr-0.9.6/src/unit_tests/CMakeLists.txt
+diff -up rttr-0.9.6/src/unit_tests/variant/variant_assign_test.cpp.omv~ rttr-0.9.6/src/unit_tests/variant/variant_assign_test.cpp

@@ -1,0 +1,12 @@
+diff -up rttr-0.9.6/doc/CMakeLists.txt.omv~ rttr-0.9.6/doc/CMakeLists.txt
+--- rttr-0.9.6/doc/CMakeLists.txt.omv~	2020-02-09 20:58:50.143749935 +0100
++++ rttr-0.9.6/doc/CMakeLists.txt	2020-02-09 20:58:57.401750255 +0100
+@@ -33,7 +33,7 @@ set(DOXYGEN_PROJECT_NAME      "${PROJECT
+ set(DOXYGEN_INPUT_DIRECTORY   "${CMAKE_SOURCE_DIR}/src/rttr \\
+                                ${CMAKE_CURRENT_SOURCE_DIR}" )
+ set(DOXYGEN_OUTPUT_DIRECTORY  "${CMAKE_BINARY_DIR}/doc")
+-set(DOXYGEN_DOC_INSTALL_DIR   "doc")
++set(DOXYGEN_DOC_INSTALL_DIR   "share/doc")
+ set(DOXYGEN_CONFIG_FILE_IN    "DoxyFile.cfg.in")
+ set(DOXYGEN_LAYOUT_FILE_IN    "doxygen-customization/layout/DoxygenLayout.xml.in")
+ set(DOXYGEN_EXCLUDE           "")
