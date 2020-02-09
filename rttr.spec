@@ -5,7 +5,7 @@
 Summary:	Run Time Type Reflection library for C++
 Name:		rttr
 Version:	0.9.6
-Release:	1
+Release:	2
 Url:		https://rttr.org/
 Source0:	https://www.rttr.org/releases/rttr-%{version}-src.tar.gz
 Patch0:		rttr-0.9.6-clang10.patch
@@ -70,6 +70,10 @@ export LD_LIBRARY_PATH=$(pwd)/build/lib:${LD_LIBRARY_PATH}
 %install
 %ninja_install -C build
 rm -f %{buildroot}%{_docdir}/index.html %{buildroot}%{_datadir}/rttr/*.{txt,md}
+# Fix up permissions
+find %{buildroot} -type d |xargs chmod 0755
+find %{buildroot} -type f |xargs chmod 0644
+chmod 0755 %{buildroot}%{_libdir}/lib*.so*
 
 %files
 
